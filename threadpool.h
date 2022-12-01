@@ -56,7 +56,6 @@ threadpool< T >::threadpool(int thread_number, int max_requests) :
     m_threads = new pthread_t[m_thread_number];
     if(!m_threads) {
         throw std::exception();
-
     }
 
     // 创建thread_number 个线程，并将他们设置为脱离线程。

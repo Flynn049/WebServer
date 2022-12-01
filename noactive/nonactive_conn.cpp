@@ -175,6 +175,7 @@ int main( int argc, char* argv[] ) {
             {
                 memset( users[sockfd].buf, '\0', BUFFER_SIZE );
                 ret = recv( sockfd, users[sockfd].buf, BUFFER_SIZE-1, 0 );
+                printf( "get %d bytes of client data %s from %d\n", ret, users[sockfd].buf, sockfd );
                 util_timer* timer = users[sockfd].timer;
                 if( ret < 0 )
                 {
@@ -200,7 +201,6 @@ int main( int argc, char* argv[] ) {
                 else
                 {
                     // 如果某个客户端上有数据可读，则我们要调整该连接对应的定时器，以延迟该连接被关闭的时间。
-                    printf( "get %d bytes of client data %s from %d\n", ret, users[sockfd].buf, sockfd );
                     if( timer ) {
                         time_t cur = time( NULL );
                         timer->expire = cur + 3 * TIMESLOT;
