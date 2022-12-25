@@ -12,7 +12,7 @@ const char* error_500_title = "Internal Error";
 const char* error_500_form = "There was an unusual problem serving the requested file.\n";
 
 // 网站的根目录
-const char* doc_root = "/home/nowcoder/webserver/resources";
+const char* doc_root = "/home/mcfly/WebServer/resources";
 
 int setnonblocking( int fd ) {
     int old_option = fcntl( fd, F_GETFL );
@@ -221,7 +221,7 @@ http_conn::HTTP_CODE http_conn::parse_headers(char* text) {
         text += strspn( text, " \t" );
         m_host = text;
     } else {
-        printf( "oop! unknow header %s\n", text );
+        printf( "oops! unknow header %s\n", text );
     }
     return NO_REQUEST;
 }
@@ -286,7 +286,7 @@ http_conn::HTTP_CODE http_conn::process_read() {
 // 映射到内存地址m_file_address处，并告诉调用者获取文件成功
 http_conn::HTTP_CODE http_conn::do_request()
 {
-    // "/home/nowcoder/webserver/resources"
+    // "/home/mcfly/WebServer/resources"
     strcpy( m_real_file, doc_root );
     int len = strlen( doc_root );
     strncpy( m_real_file + len, m_url, FILENAME_LEN - len - 1 );
@@ -406,9 +406,9 @@ bool http_conn::add_status_line( int status, const char* title ) {
 }
 
 bool http_conn::add_headers(int content_len) {
-    add_content_length(content_len);
-    add_content_type();
-    add_linger();
+    return add_content_length(content_len) &&
+    add_content_type() &&
+    add_linger() &&
     add_blank_line();
 }
 
